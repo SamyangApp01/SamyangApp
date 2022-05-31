@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "901214479399",
-    "project_id": "samyanggg-e9b68",
-    "storage_bucket": "samyanggg-e9b68.appspot.com"
+    "project_number": "720215349250",
+    "firebase_url": "https://samyangapp-c93cb-default-rtdb.firebaseio.com",
+    "project_id": "samyangapp-c93cb",
+    "storage_bucket": "samyangapp-c93cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:901214479399:android:435a6d0491381753991a02",
+        "mobilesdk_app_id": "1:720215349250:android:60e5e6683bf3d68ce12f1b",
         "android_client_info": {
           "package_name": "com.example.flutter_application_1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "901214479399-h0j3b918oar387dckiamd9mpn44un4db.apps.googleusercontent.com",
+          "client_id": "720215349250-r8tkilm6p4pntn1thbtbmo0fknr03fel.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGZ6T93sRHIV6jb7ISIeU92e0bs7zH8l8"
+          "current_key": "AIzaSyCj5g1dAzkKX-s4L6oVBqUQpzPA1MhmE38"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "901214479399-h0j3b918oar387dckiamd9mpn44un4db.apps.googleusercontent.com",
+              "client_id": "720215349250-r8tkilm6p4pntn1thbtbmo0fknr03fel.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
