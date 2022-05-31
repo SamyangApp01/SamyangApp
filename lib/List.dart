@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/Home.dart';
-import 'package:firebase_core/firebase_core.dart';
 import "package:flutter_application_1/Samyang-Cheese.dart";
 import 'package:flutter_application_1/Icons.dart';
 

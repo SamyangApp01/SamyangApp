@@ -1,41 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/Login.dart';
+import 'package:flutter_application_1/Product_List.dart';
 import 'package:flutter_application_1/Setting.dart';
 import 'package:flutter_application_1/Cart.dart';
+import 'package:flutter_application_1/SpashScreen.dart';
+import 'package:flutter_application_1/auth_services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); 
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
+   return StreamProvider.value(
+     value: AuthServices.firebaseUserStream, 
+      initialData: null,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
       title: _title,
       home: MyStatefulWidget(),
-    );
+   ));
   }
 }
 
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
-
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? obtainedUser =  sharedPreferences.getString('username');
+  }
+
+
   int currenIndex = 0;
-  final List<Widget> screens = [
+  List<Widget> screens = [
     Page1(),
-    const Settings(),
+    Settings(),
+    Product_List(),
     Cart(),
-    const LoginPage(),
+    SplashScreenPage(),
   ];
 
-  final PageStorageBucket bucket = PageStorageBucket();
+  PageStorageBucket bucket = PageStorageBucket();
   Widget currentscreen = Page1();
 
   @override
@@ -132,7 +153,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         
                         setState(() {
                           currentscreen = Cart();
-                          currenIndex = 2;
+                          currenIndex = 3;
                         });
                       },
                       child: Column(
@@ -140,12 +161,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         children: [
                           Icon(
                             Icons.shopping_cart_checkout_outlined,
-                            color: currenIndex == 2 ? Colors.white : Colors.grey
+                            color: currenIndex == 3 ? Colors.white : Colors.grey
                           ),
                           Text(
                             'Cart',
                             style: TextStyle(
-                              color: currenIndex == 2 ? Colors.white : Colors.grey,
+                              color: currenIndex == 3 ? Colors.white : Colors.grey,
                             ),
                           )
                         ],
@@ -164,8 +185,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       onPressed: () {
                         
                         setState(() {
-                          currentscreen = const LoginPage();
-                          currenIndex = 3;
+                          currentscreen = SplashScreenPage();
+                          currenIndex = 4;
                         });
                       },
                       child: Column(
@@ -173,12 +194,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         children: [
                           Icon(
                             Icons.person,
-                            color: currenIndex == 3 ? Colors.white : Colors.grey
+                            color: currenIndex == 4 ? Colors.white : Colors.grey
                           ),
                           Text(
                             'Login',
                             style: TextStyle(
-                              color: currenIndex == 3 ? Colors.white : Colors.grey,
+                              color: currenIndex == 4 ? Colors.white : Colors.grey,
                             ),
                           )
                         ],
@@ -199,8 +220,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       child: FloatingActionButton(
         child: const Image(image: AssetImage('Assets/18.png')),
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Page1()));
+          setState(() {
+            currentscreen = Product_List();
+            currenIndex = 2;
+          });
         },
         backgroundColor: const Color.fromARGB(161, 255, 0, 0),
       ));

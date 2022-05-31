@@ -1,16 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/Forgot_password.dart';
 import 'package:flutter_application_1/Home.dart';
+import 'package:flutter_application_1/SpashScreen.dart';
+import 'package:flutter_application_1/auth_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+import 'package:flutter_application_1/LoginSuccess.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_1/auth_services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_application_1/Forgot_password.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  void initState() {
+    bool _passwordVisible = false;
+  }
+
+  @override
+  TextEditingController user = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
+
+  int Count = 0;
 
   @override
   Widget build(BuildContext context) {
     const appTitle = 'Form Styling Demo';
-    return MaterialApp(
+    return GetMaterialApp(
         title: appTitle,
         debugShowCheckedModeBanner: false,
         home: Container(
@@ -49,6 +73,7 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 10),
                       child: TextField(
+                        controller: user,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -75,8 +100,9 @@ class LoginPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 3),
                       child: TextField(
+                        controller: pass,
                         obscureText: true,
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -100,6 +126,30 @@ class LoginPage extends StatelessWidget {
                             ),
                             hintText: 'Password',
                             hintStyle: const TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ResetPasswordPage()));
+                              },
+                              child: const Text(
+                                "Forgot Password",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            )
+                        ],
                       ),
                     ),
                     Padding(
@@ -127,7 +177,46 @@ class LoginPage extends StatelessWidget {
                                 primary: Colors.transparent,
                                 minimumSize: const Size.fromHeight(50), // NEW
                               ),
-                              onPressed: () {},
+                              onPressed: () async {
+                                AuthServices.SignIn(user.text, pass.text);
+                              },
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                     Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 1),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Color.fromARGB(255, 255, 0, 0),
+                                      Color.fromARGB(255, 134, 11, 11),
+                                      Color.fromARGB(255, 88, 3, 3),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.transparent,
+                                minimumSize: const Size.fromHeight(50), // NEW
+                              ),
+                              onPressed: () async {
+                                AuthServices.SignInAnonymous();
+                              },
                               child: const Text(
                                 'Login',
                                 style: TextStyle(fontSize: 24),
@@ -142,12 +231,18 @@ class LoginPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'Don’t have an Account ?',
+                            Text(
+                              'Not Have Avc',
                               style: TextStyle(color: Colors.white),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ResetPasswordPage()));
+                              },
                               child: const Text(
                                 " Sign Up ",
                                 style: TextStyle(
