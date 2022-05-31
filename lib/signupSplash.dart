@@ -1,22 +1,18 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/Login.dart';
-import 'package:flutter_application_1/LoginSuccess.dart';
-import 'package:flutter_application_1/Setting.dart';
-import 'package:get/get.dart';
+import 'package:flutter_application_1/Signup2.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_application_1/auth_services.dart';
-class SplashScreenPageSetting extends StatefulWidget {
-  SplashScreenPageSetting({Key? key}) : super(key: key);
+
+class SplashScreenPageSignup extends StatefulWidget {
+  SplashScreenPageSignup({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreenPageSetting> createState() => _SplashScreenStateSetting();
+  State<SplashScreenPageSignup> createState() => _SplashScreenSignupState();
 }
 
-class _SplashScreenStateSetting extends State<SplashScreenPageSetting> with TickerProviderStateMixin{
+class _SplashScreenSignupState extends State<SplashScreenPageSignup> with TickerProviderStateMixin {
   late bool isLoading = true;
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -40,7 +36,7 @@ class _SplashScreenStateSetting extends State<SplashScreenPageSetting> with Tick
     });
     super.initState();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     User? firebaseUser = Provider.of<User?>(context); 
@@ -54,6 +50,6 @@ class _SplashScreenStateSetting extends State<SplashScreenPageSetting> with Tick
               child: Image(image: AssetImage('Assets/10.png'), width: 100,),
               )
           ),
-          ) : (firebaseUser == null ) ? LoginPage() : Settings(firebaseUser);
+          ) : (firebaseUser == null ) ? SignUpPage() : MyApp();
   }
 }

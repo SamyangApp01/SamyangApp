@@ -76,7 +76,7 @@ class LoginPageSuccess extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Text(user.uid),
+                              Padding(padding: EdgeInsets.only(bottom: 20)),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.transparent,
@@ -86,9 +86,10 @@ class LoginPageSuccess extends StatelessWidget {
                                   AuthServices.SignOut();
                                   SharedPreferences sharedPreferences2 = await SharedPreferences.getInstance();
                                   sharedPreferences2.remove('Userid');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
                                 },
                                 child: const Text(
-                                  'Login',
+                                  'Log Out',
                                   style: TextStyle(fontSize: 24),
                                 ),
                               )

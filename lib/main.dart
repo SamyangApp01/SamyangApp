@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/CartSplashScreen.dart';
 import 'package:flutter_application_1/Home.dart';
-import 'package:flutter_application_1/Product_List.dart';
-import 'package:flutter_application_1/Setting.dart';
-import 'package:flutter_application_1/Cart.dart';
+import 'package:flutter_application_1/Product_List_Screen/Product_List.dart';
 import 'package:flutter_application_1/SettingSplashScreen.dart';
 import 'package:flutter_application_1/SpashScreen.dart';
 import 'package:flutter_application_1/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 void main() async {
@@ -37,18 +34,16 @@ class MyApp extends StatelessWidget {
 
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
+  
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
-  Future getValidationData() async {
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? obtainedUser =  sharedPreferences.getString('username');
-  }
+  late bool isLoading;
 
-
+  @override
   int currenIndex = 0;
   List<Widget> screens = [
     Page1(),
@@ -73,7 +68,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
        bottomNavigationBar: BottomAppBar(
-          color: const Color.fromARGB(255, 14, 0, 0),
+          color: Color.fromARGB(178, 14, 0, 0),
           shape: const CircularNotchedRectangle(),
           child: SizedBox(
             height: 55,

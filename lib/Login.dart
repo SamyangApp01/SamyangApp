@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/Forgot_password.dart';
 import 'package:flutter_application_1/Home.dart';
+import 'package:flutter_application_1/Signup2.dart';
 import 'package:flutter_application_1/SpashScreen.dart';
 import 'package:flutter_application_1/auth_services.dart';
+import 'package:flutter_application_1/signupSplash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/LoginSuccess.dart';
@@ -34,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     const appTitle = 'Form Styling Demo';
-    return GetMaterialApp(
+    return MaterialApp(
         title: appTitle,
         debugShowCheckedModeBanner: false,
         home: Container(
@@ -90,11 +92,11 @@ class _LoginPageState extends State<LoginPage> {
                             prefixIcon: const Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: Icon(
-                                Icons.person,
+                                Icons.email,
                                 color: Colors.white,
                               ), // myIcon is a 48px-wide widget.
                             ),
-                            hintText: 'Username',
+                            hintText: 'Email',
                             hintStyle: const TextStyle(color: Colors.white)),
                       ),
                     ),
@@ -190,49 +192,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 1),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned.fill(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 255, 0, 0),
-                                      Color.fromARGB(255, 134, 11, 11),
-                                      Color.fromARGB(255, 88, 3, 3),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.transparent,
-                                minimumSize: const Size.fromHeight(50), // NEW
-                              ),
-                              onPressed: () async {
-                                AuthServices.SignInAnonymous();
-                              },
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(fontSize: 24),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Not Have Avc',
+                              "Doesn't have an Samyang account yet?",
                               style: TextStyle(color: Colors.white),
                             ),
                             GestureDetector(
@@ -241,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ResetPasswordPage()));
+                                            SplashScreenPageSignup()));
                               },
                               child: const Text(
                                 " Sign Up ",

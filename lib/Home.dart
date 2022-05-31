@@ -7,9 +7,12 @@ import "package:flutter_application_1/Samyang-Cheese.dart";
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_application_1/Setting.dart';
 import 'package:flutter_application_1/Models/models_product.dart';
+import 'package:flutter_application_1/SpashScreen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application_1/Models/Models_Carosel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Page1 extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
@@ -31,12 +34,45 @@ class MyStatefulWidget extends StatefulWidget {
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _MyStatefulWidgetState extends State<MyStatefulWidget> with TickerProviderStateMixin {
   final int _count = 0;
+  late bool isLoading = true;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  dispose() {
+  _controller.dispose(); // you need this
+  super.dispose();
+  }
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animation = CurvedAnimation(parent: _controller, 
+    curve: Curves.ease);
+    _controller.repeat(reverse: true);
+    Future.delayed(Duration(seconds: 5), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return isLoading ? 
+          Scaffold(
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            body: Center(
+            child: FadeTransition(
+              opacity: _animation,
+              child: Image(image: AssetImage('Assets/10.png'), width: 100,),
+              )
+          ),
+          )
+          : MaterialApp(
         // or CupertinoApp
         title: 'My Flutter App',
         debugShowCheckedModeBanner: false,
@@ -67,7 +103,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               items: Carousel.Carousels.map(
                   (Carousels) => Carousel_Card(carousel: Carousels)).toList(),
             )),
-            Recomended(title: 'Recomended'),
+            Recomended(title: 'Recommended'),
             SizedBox(
                 height: 165,
                 child: StreamBuilder(
@@ -233,7 +269,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ],
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                               SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                                var obtainedUser = sharedPreferences.getString('Userid');
+                                print(obtainedUser);
+                              if (obtainedUser == null) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreenPage()));
+                                showToast2();
+                                print('null ege');
+                              } else if (obtainedUser != null) {
+                                CreateCart(name: Name, Url: url, Price: price);
+                                showToast();
+                                print('aa');
+                                print(obtainedUser);
+                                
+                              }
+                              CreateCart(name: Name, Url: url, Price: price);
+                              showToast();
+
+                            },
                             icon: Icon(
                               Icons.add_circle,
                               color: Colors.white,
@@ -242,6 +297,30 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     )))
           ],
         ));
+  }
+  void showToast() => Fluttertoast.showToast(
+    msg: 'Product added to cart');
+
+  void showToast2() => Fluttertoast.showToast(
+    msg: 'You need to login first');
+
+
+  Future CreateCart({required String name, required String Url, required int Price}) async {
+     SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedUser = sharedPreferences.getString('Userid');
+    print(obtainedUser);
+    final docCart = FirebaseFirestore.instance.collection('Cart').doc(obtainedUser).collection('UserCart').doc(name);
+
+    final json = {
+      'ProductName': name,
+      'Count' : 1,
+      'Product_Img' : Url,
+      'ProductPrice' : Price,
+      'id' : obtainedUser,
+      'TotalPrice' : Price
+    };
+    await docCart.set(json);
   }
 }
 
