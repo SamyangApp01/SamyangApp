@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AturRekening extends StatefulWidget {
-  AturRekening({Key? key}) : super(key: key);
+class Alamat extends StatefulWidget {
+  Alamat({Key? key}) : super(key: key);
 
   @override
-  State<AturRekening> createState() => _nameState();
+  State<Alamat> createState() => _nameState();
 }
 
-class _nameState extends State<AturRekening> {
+class _nameState extends State<Alamat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
