@@ -80,9 +80,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         print(product);
 
                         return ListView(
-                          scrollDirection: Axis.horizontal,
-                          // children: product.docs.map((e) => Recomen_Card(e['Product_Name'],e['Product_Img'], e['Product_Price'])).toList()
-                        );
+                            scrollDirection: Axis.horizontal,
+                            children: product.docs
+                                .map((e) => Recomen_Card(e['Product_Name'],
+                                    e['Product_Img'], e['Product_Price']))
+                                .toList());
                       } else {
                         print('error');
                         return Text('error');
